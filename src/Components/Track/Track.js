@@ -27,8 +27,18 @@ class Track extends React.Component {
     }
 
     render() {
+        // toggles visibility of tracks depending on whether they're in playlist or search results
+        let visibility;
+        if (!this.props.isPlaylist){
+            visibility = {
+                display: this.props.track.isVisible ? "flex" : "none"
+            }
+        } else {
+            visibility = {display: "flex"};
+        }
+        
         return (
-            <div className="Track">
+            <div className="Track" style={visibility}>
                 <div className="Track-information">
                     <h3>{this.props.track.name}</h3>
                     <p>{this.props.track.artist} | {this.props.track.album}</p>

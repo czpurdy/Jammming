@@ -26,11 +26,23 @@ class App extends React.Component {
 
   addTrack(track) {
     // checks that new track id is not identical to track id of each track already added to playlist. will add to playlist if new
-    let notInPlaylist = this.state.playlistTracks.every(playlistTrack =>
-      playlistTrack.id !== track.id);
+    let notInPlaylist = this.state.playlistTracks.every(playlistTrack => playlistTrack.id !== track.id);
+
+    // removes track added to playlist from search results
     if (notInPlaylist) {
+      let visibleSearchResults = this.state.searchResults.map(searchTrack => {
+        if (searchTrack.id === track.id){
+          searchTrack.isVisible = false;
+        }
+        return searchTrack;
+      });
+      
       this.setState({
         playlistTracks: this.state.playlistTracks.concat([track]),
+        searchResults: visibleSearchResults
+
+        // alternate method to remove track added to playlist from search results 
+        // searchResults: this.state.searchResults.filter(searchResultsTrack => searchResultsTrack.id !== track.id)
       });
     }
   }
@@ -39,7 +51,22 @@ class App extends React.Component {
     let tracks = this.state.playlistTracks;
     tracks = tracks.filter(currentTrack => currentTrack.id !== track.id);
 
-    this.setState({playlistTracks: tracks});
+    // adds track removed from playlist to search results
+    let visibleSearchResults = this.state.searchResults.map(searchTrack => {
+      if (searchTrack.id === track.id){
+        searchTrack.isVisible = true;
+      }
+      return searchTrack;
+    });
+
+    // alternative method to add track removed from playlist to search results
+    //let newSearchResults = this.state.searchResults;
+    // newSearchResults.unshift(track);
+
+    this.setState({ 
+      playlistTracks: tracks,
+      searchResults: visibleSearchResults
+    });
   }
 
   updatePlaylistName(name) {
@@ -57,7 +84,13 @@ class App extends React.Component {
   }
 
   search(searchTerm) {
-    Spotify.search(searchTerm).then(searchResults => {
+    Spotify.search(searchTerm).then(searchResults => { // adds isVisible attribute to each search track
+      searchResults.forEach(searchResult => {
+        searchResult.isVisible = true;
+        return searchResult;
+      })
+      return searchResults;
+    }).then(searchResults => {
       this.setState({searchResults: searchResults});
     });
   }

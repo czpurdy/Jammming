@@ -1,6 +1,6 @@
 let accessToken;
 let clientId = "1e1c26ec77b247539b9f0d37a4699857";
-let redirectUri = "http://localhost:3000/";
+let redirectUri = "https://czpurdy.github.io/Jammming/";
 
 let Spotify = {
     getAccessToken: function() {

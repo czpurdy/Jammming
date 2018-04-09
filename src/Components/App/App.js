@@ -4,6 +4,7 @@ import './App.css';
 import Playlist from "../Playlist/Playlist.js";
 import SearchBar from "../SearchBar/SearchBar.js";
 import SearchResults from "../SearchResults/SearchResults.js";
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner.js';
 
 import Spotify from "../../util/Spotify.js";
 
@@ -15,7 +16,8 @@ class App extends React.Component {
       searchResults: [],
       // set default playlist name -- allows playlist name to reset after a playlist is saved
       playlistName: "New Playlist",
-      playlistTracks: []
+      playlistTracks: [],
+      loading: false,
     }
     this.addTrack = this.addTrack.bind(this);
     this.removeTrack = this.removeTrack.bind(this);
@@ -75,7 +77,10 @@ class App extends React.Component {
 
   savePlaylist() {
     let trackURIs = this.state.playlistTracks.map(track => track.uri);
-    Spotify.savePlaylist(this.state.playlistName, trackURIs);
+    Spotify.savePlaylist(this.state.playlistName, trackURIs).then(() => {
+      
+    });
+    
     this.setState({
       playlistName: "New Playlist",
       playlistTracks: [],
@@ -84,31 +89,38 @@ class App extends React.Component {
   }
 
   search(searchTerm) {
-    Spotify.search(searchTerm).then(searchResults => { // adds isVisible attribute to each search track
-      searchResults.forEach(searchResult => {
-        searchResult.isVisible = true;
-        return searchResult;
-      })
-      return searchResults;
-    }).then(searchResults => {
-      this.setState({searchResults: searchResults});
+    this.setState({ loading: true }, () => {
+      Spotify.search(searchTerm).then(searchResults => { // adds isVisible attribute to each search track
+        searchResults.forEach(searchResult => {
+          searchResult.isVisible = true;
+          return searchResult;
+        })
+        return searchResults;
+      }).then(searchResults => {
+        this.setState({
+          searchResults: searchResults,
+          loading: false, 
+        });
+      });
     });
   }
 
   render() {
+    const { searchResults, loading, playlistName, playlistTracks} = this.state;
+
     return (
       <div>
       <h1>Ja<span className="highlight">mmm</span>ing</h1>
         <div className="App">
           <SearchBar onSearch={this.search} />
           <div className="App-playlist">
-            <SearchResults 
-              searchResults={this.state.searchResults} 
+            {loading ? <LoadingSpinner/> :  <SearchResults 
+              searchResults={searchResults} 
               onAdd={this.addTrack} 
-            />
+            />}
             <Playlist 
-              playlistName={this.state.playlistName} 
-              playlistTracks={this.state.playlistTracks} 
+              playlistName={playlistName} 
+              playlistTracks={playlistTracks} 
               onRemove={this.removeTrack} 
               onNameChange={this.updatePlaylistName} 
               onSave={this.savePlaylist} 

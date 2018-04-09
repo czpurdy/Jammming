@@ -15,7 +15,7 @@ class App extends React.Component {
     this.state = {
       searchResults: [],
       // set default playlist name -- allows playlist name to reset after a playlist is saved
-      playlistName: "New Playlist",
+      playlistName: "Enter Playlist Name",
       playlistTracks: [],
       loading: false,
     }
@@ -78,11 +78,11 @@ class App extends React.Component {
   savePlaylist() {
     let trackURIs = this.state.playlistTracks.map(track => track.uri);
     Spotify.savePlaylist(this.state.playlistName, trackURIs).then(() => {
-      
+
     });
     
     this.setState({
-      playlistName: "New Playlist",
+      playlistName: "Enter Playlist Name",
       playlistTracks: [],
       searchResults: []
     });

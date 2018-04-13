@@ -58,8 +58,8 @@
   
   #loading-content {
     border: 3px solid transparent;
-    border-top-color: #2a343a;
-    border-bottom-color: #2a343a;
+    border-top-color: #010d3f;
+    border-bottom-color: #010d3f;
     border-radius: 50%;
     -webkit-animation: loader 2s linear infinite;
     -moz-animation: loader 2s linear infinite;
@@ -69,8 +69,8 @@
   
   #loading-content:before {
     border: 3px solid transparent;
-    border-top-color: #cca353;
-    border-bottom-color: #cca353;
+    border-top-color: #6f2c8b;
+    border-bottom-color: #6f2c8b;
     border-radius: 50%;
     -webkit-animation: loader 3s linear infinite;
       -moz-animation: loader 2s linear infinite;
@@ -80,8 +80,8 @@
   
   #loading-content:after {
     border: 3px solid transparent;
-    border-top-color: #551b04;
-    border-bottom-color: #551b04;
+    border-top-color: #6c41ec;
+    border-bottom-color: #6c41ec;
     border-radius: 50%;
     -webkit-animation: loader 1.5s linear infinite;
     animation: loader 1.5s linear infinite;

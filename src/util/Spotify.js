@@ -20,7 +20,7 @@ let Spotify = {
 
             // resets the access token and URL parameters
             window.setTimeout(() => accessToken = null, expiresIn * 1000);
-            window.history.pushState('Access Token', null, '/');
+            window.history.pushState('Access Token', null, '/Jammming/');
 
             // do not be like past Christine and forget this
             return accessToken;

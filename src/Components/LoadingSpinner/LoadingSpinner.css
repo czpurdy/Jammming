@@ -69,8 +69,8 @@
   
   #loading-content:before {
     border: 3px solid transparent;
-    border-top-color: #6f2c8b;
-    border-bottom-color: #6f2c8b;
+    border-top-color: white;
+    border-bottom-color: white;
     border-radius: 50%;
     -webkit-animation: loader 3s linear infinite;
       -moz-animation: loader 2s linear infinite;
